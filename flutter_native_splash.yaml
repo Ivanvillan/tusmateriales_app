@@ -1,0 +1,5 @@
+flutter_native_splash:
+  image: assets/img/screen-logo.jpg
+  fill: true
+  color: "42a5f5"
+  android_disable_fullscreen: true
