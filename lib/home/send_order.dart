@@ -175,6 +175,7 @@ class _SendOrderState extends State<SendOrder> {
                       var orderBody = json.decode(response.body);
                       var orderId = orderBody['response'].toString();
                       if (response.statusCode == 200) {
+                        sendMail();
                         // Navigator.push(
                         //   context,
                         //   MaterialPageRoute(
@@ -199,7 +200,14 @@ class _SendOrderState extends State<SendOrder> {
                         var preference = mpBody['result']['PREFERENCE_ID'];
                         var publicKey = mpBody['result']['PUBLIC_KEY'];
                         print(res.body);
+
                         if (res.statusCode == 200) {
+                          scaffoldKey.currentState.showSnackBar(
+                            SnackBar(
+                              content: Text('Espere...'),
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
                           var result =
                               await MercadoPagoMobileCheckout.startCheckout(
                                   publicKey, preference);
@@ -229,12 +237,6 @@ class _SendOrderState extends State<SendOrder> {
                             );
                           }
                         }
-                        scaffoldKey.currentState.showSnackBar(
-                          SnackBar(
-                            content: Text('Orden creada'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
                       } else {
                         Navigator.pop(c, false);
                         scaffoldKey.currentState.showSnackBar(
@@ -296,29 +298,33 @@ class _SendOrderState extends State<SendOrder> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var email = localStorage.getString('email');
     var name = localStorage.getString('username').toUpperCase();
-    String username = 'tusmateriales@pcassi.net';
-    String password = 'Tm#2021.';
-    // ignore: deprecated_member_use
+    String username = 'tusmaterialesapp@gmail.com';
+    String password = 'materialesapp1';
     final smtpServer =
-        SmtpServer('mail.pcassi.net', username: username, password: password);
+        SmtpServer('smtp.gmail.com', username: username, password: password);
     var totalPrice = Provider.of<CustomerList>(context)
         .customers
-        .map<int>((m) => m.price * m.quantity)
+        .map<int>((m) => int.parse(m.price.split('.')[0]) * m.quantity)
         .reduce((a, b) => a + b);
+    var totalPrice2 = Provider.of<CustomerList>(context)
+        .customers
+        .map<int>((m) => int.parse(m.price.split('.')[1]) * m.quantity)
+        .reduce((a, b) => a + b);
+    var total = totalPrice + totalPrice2;
     var list = Provider.of<CustomerList>(context).customers;
     var pedido = StringBuffer();
     list.forEach((item) {
       pedido.write('\nArtículo\n'
           ' · Material: ${item.detail}\n'
           ' · Tipo: ${item.brand}\n'
-          ' · Cantidad: ${int.parse(item.quantity.toString())}\n'
-          ' · Precio: \$${int.parse(item.price.toString())}\n'
-          ' · Total: \$${int.parse(item.price.toString()) * int.parse(item.quantity.toString())}\n');
+          ' · Cantidad: ${item.quantity}\n'
+          ' · Precio: \$${item.price}\n');
     });
 
     final message = Message()
       ..from = Address(username)
-      // ..recipients.add() mail de maxi
+      ..recipients.add('maximiliano.albitre@gerdau.com')
+      ..bccRecipients.add(Address('ivanvillan54@gmail.com'))
       ..subject = 'Nueva orden de: $name'
       ..text = '\nINFORMACIÓN DEL CLIENTE\n'
           ' · Dirección de entrega: $direc\n'
@@ -326,7 +332,7 @@ class _SendOrderState extends State<SendOrder> {
           ' · Email: $email\n'
           '$pedido\n'
           '\nPRECIO FINAL\n'
-          ' · Total a pagar: \$$totalPrice\n';
+          ' · Total a pagar: \$$total\n';
     try {
       final sendReport = await send(message, smtpServer);
       print('Message sent: ' + sendReport.toString());

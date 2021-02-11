@@ -331,19 +331,21 @@ class _NewMessageState extends State<NewMessage> {
   sendMail() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var name = localStorage.getString('username').toUpperCase();
-    String username = 'tusmateriales@pcassi.net';
-    String password = 'Tm#2021.';
+    String username = 'tusmaterialesapp@gmail.com';
+    String password = 'materialesapp1';
     final smtpServer =
-        SmtpServer('mail.pcassi.net', username: username, password: password);
+        SmtpServer('smtp.gmail.com', username: username, password: password);
 
     final message = Message()
       ..from = Address(username)
       ..recipients.add(data3[0]['email'])
-      // ..bccRecipients.add('') mail de maxi
+      ..ccRecipients.addAll(['maximiliano.albitre@gerdau.com'])
+      ..bccRecipients.add(Address('ivanvillan54@gmail.com'))
       ..subject = 'Nuevo mensaje de: $name'
       ..text = '\nINFORMACIÓN\n'
           ' · Razón: ${_selectedReason.name}\n'
           ' · Teléfono: ${data2[0]['phone']}\n'
+          ' · Teléfono: ${data2[0]['email']}\n'
           '\nMENSAJE\n'
           '· ${textController.text}';
     try {

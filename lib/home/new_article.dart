@@ -344,14 +344,6 @@ class _NewArticleState extends State<NewArticle> {
                           : RaisedButton(
                               onPressed: () {
                                 startUpload();
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ListArticles(
-                                        client: false,
-                                        idCorral: widget.idCorral.toString()),
-                                  ),
-                                );
                               },
                               color: Color(0xffe9501c),
                               child: Text(
@@ -446,15 +438,24 @@ class _NewArticleState extends State<NewArticle> {
     var response = await multipartRequest.send();
     print(response.statusCode);
     if (response.statusCode == 200) {
+      Navigator.push(
+        scaffoldKey.currentContext,
+        MaterialPageRoute(
+          builder: (context) => NewArticle(
+            idCorral: widget.idCorral,
+          ),
+        ),
+      );
+    } else {
       scaffoldKey.currentState.showSnackBar(
         SnackBar(
-          content: Text('Articulo creado'),
+          content: Text('Error'),
           duration: Duration(seconds: 2),
         ),
       );
+      setState(() {
+        loading = false;
+      });
     }
-    setState(() {
-      loading = false;
-    });
   }
 }

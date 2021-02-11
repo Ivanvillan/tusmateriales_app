@@ -367,16 +367,6 @@ class _EditArticleState extends State<EditArticle> {
                                   print(response.body);
                                   if (response.statusCode == 200) {
                                     startUpload();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ListArticles(
-                                          client: false,
-                                          idCorral: data[0]['article']
-                                              ['idcorral'],
-                                        ),
-                                      ),
-                                    );
                                     scaffoldKey.currentState.showSnackBar(
                                       SnackBar(
                                         content: Text('Articulo editado'),
@@ -499,6 +489,24 @@ class _EditArticleState extends State<EditArticle> {
         contentType: MediaType('image', 'png')));
     var response = await multipartRequest.send();
     print(response.statusCode);
+    if (response.statusCode == 200) {
+      Navigator.push(
+        scaffoldKey.currentContext,
+        MaterialPageRoute(
+          builder: (context) => ListArticles(
+            client: false,
+            idCorral: data[0]['article']['idcorral'],
+          ),
+        ),
+      );
+    } else {
+      scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('Error'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
     setState(() {
       loading = false;
     });

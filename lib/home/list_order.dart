@@ -67,6 +67,7 @@ class _ListOrderState extends State<ListOrder> {
                 InkWell(
                   onTap: () {
                     final idOrder = data[i]['idorder'];
+                    final idUser = widget.idUser;
                     print(idOrder);
                     Navigator.push(
                       context,
@@ -74,6 +75,7 @@ class _ListOrderState extends State<ListOrder> {
                         builder: (context) => DetailOrder(
                           idOrder: idOrder,
                           client: true,
+                          idUser: idUser,
                           orderState: data[i]['state'],
                         ),
                       ),

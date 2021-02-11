@@ -10,7 +10,13 @@ class DetailOrder extends StatefulWidget {
   final idOrder;
   final client;
   final orderState;
-  DetailOrder({Key key, @required this.idOrder, this.client, this.orderState})
+  final idUser;
+  DetailOrder(
+      {Key key,
+      @required this.idOrder,
+      this.client,
+      this.orderState,
+      this.idUser})
       : super(key: key);
   @override
   _DetailOrderState createState() => _DetailOrderState();
@@ -36,31 +42,7 @@ class _DetailOrderState extends State<DetailOrder> {
             Container(
               width: MediaQuery.of(context).size.width / 3,
               child: RaisedButton(
-                onPressed: () async {
-                  SharedPreferences localStorage =
-                      await SharedPreferences.getInstance();
-                  var cookies = localStorage.getString('cookies');
-                  var idUser = localStorage.getString('id');
-                  var url =
-                      'http://200.105.69.227/tusmateriales-api/public/index.php/orders/cancel/order/${widget.idOrder}';
-                  var response = await http.post(
-                    url,
-                    headers: {'Accept': 'application/json', 'Cookie': cookies},
-                  );
-                  print(response.statusCode);
-                  print(response.body);
-                  if (response.statusCode == 200) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ListOrder(
-                          stateOrder: 'all',
-                          idUser: idUser,
-                        ),
-                      ),
-                    );
-                  }
-                },
+                onPressed: () async {},
                 child: Text('Cancelar orden'),
               ),
             ),
@@ -74,6 +56,69 @@ class _DetailOrderState extends State<DetailOrder> {
 
   @override
   Widget build(BuildContext context) {
+    void navigatorPush() {
+      if (widget.client == true) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ListOrder(
+              idUser: widget.idUser,
+              stateOrder: widget.orderState,
+            ),
+          ),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Home(
+              stateOrders: widget.orderState,
+              typeUser: '1',
+            ),
+          ),
+        );
+      }
+    }
+
+    Widget _floatingButton() {
+      if (widget.client == true) {
+        return FloatingActionButton(
+          onPressed: () async {
+            SharedPreferences localStorage =
+                await SharedPreferences.getInstance();
+            var cookies = localStorage.getString('cookies');
+            var idUser = localStorage.getString('id');
+            var url =
+                'http://200.105.69.227/tusmateriales-api/public/index.php/orders/cancel/order/${widget.idOrder}';
+            var response = await http.post(
+              url,
+              headers: {'Accept': 'application/json', 'Cookie': cookies},
+            );
+            print(response.statusCode);
+            print(response.body);
+            if (response.statusCode == 200) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ListOrder(
+                    stateOrder: widget.orderState,
+                    idUser: idUser,
+                  ),
+                ),
+              );
+            }
+          },
+          backgroundColor: Color(0xffe9501c),
+          child: Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
+        );
+      } else {
+        return Container();
+      }
+    }
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -88,7 +133,7 @@ class _DetailOrderState extends State<DetailOrder> {
           automaticallyImplyLeading: true,
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => navigatorPush(),
           ),
         ),
         body: ListView.builder(
@@ -122,7 +167,54 @@ class _DetailOrderState extends State<DetailOrder> {
                               MaterialPageRoute(
                                 builder: (context) => DetailOrder(
                                   idOrder: widget.idOrder,
+                                  orderState: widget.orderState,
                                   client: false,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: Text('Cancelar', style: TextStyle(fontSize: 10)),
+                      ),
+                    ),
+                  ],
+                );
+              } else {
+                return Container();
+              }
+            }
+
+            Widget itemStateClient() {
+              if (widget.orderState == '1') {
+                return Column(
+                  children: <Widget>[
+                    Container(
+                      child: RaisedButton(
+                        onPressed: () async {
+                          var idItem = data[i]['iditem'];
+                          SharedPreferences localStorage =
+                              await SharedPreferences.getInstance();
+                          var cookies = localStorage.getString('cookies');
+                          var url =
+                              'http://200.105.69.227/tusmateriales-api/public/index.php/orders/cancel/item/$idItem';
+                          var response = await http.post(
+                            url,
+                            headers: {
+                              'Accept': 'application/json',
+                              'Cookie': cookies
+                            },
+                          );
+                          print(response.statusCode);
+                          print(response.body);
+                          if (response.statusCode == 200) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailOrder(
+                                  idOrder: widget.idOrder,
+                                  orderState: widget.orderState,
+                                  client: true,
+                                  idUser: widget.idUser,
                                 ),
                               ),
                             );
@@ -170,7 +262,7 @@ class _DetailOrderState extends State<DetailOrder> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => Home(
-                                        stateOrders: 'all',
+                                        stateOrders: widget.orderState,
                                         typeUser: '1',
                                       ),
                                     ),
@@ -217,7 +309,7 @@ class _DetailOrderState extends State<DetailOrder> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => Home(
-                                        stateOrders: '2',
+                                        stateOrders: widget.orderState,
                                         typeUser: '1',
                                       ),
                                     ),
@@ -261,7 +353,7 @@ class _DetailOrderState extends State<DetailOrder> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => Home(
-                                        stateOrders: 'all',
+                                        stateOrders: widget.orderState,
                                         typeUser: '1',
                                       ),
                                     ),
@@ -337,7 +429,6 @@ class _DetailOrderState extends State<DetailOrder> {
             } else {
               return Column(
                 children: <Widget>[
-                  orderState(),
                   Card(
                     elevation: 4,
                     child: Padding(
@@ -381,7 +472,7 @@ class _DetailOrderState extends State<DetailOrder> {
                               ),
                             ],
                           ),
-                          itemState(),
+                          itemStateClient(),
                         ],
                       ),
                     ),
@@ -391,6 +482,7 @@ class _DetailOrderState extends State<DetailOrder> {
             }
           },
         ),
+        floatingActionButton: _floatingButton(),
       ),
     );
   }

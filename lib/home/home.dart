@@ -49,6 +49,7 @@ class _HomeState extends State<Home> {
   List dataArticles = List();
   bool _loading = true;
   var roleProfile;
+  var state;
 
   @override
   void initState() {
@@ -933,6 +934,11 @@ class _HomeState extends State<Home> {
             body: ListView.builder(
               itemCount: dataArticles == null ? 0 : dataArticles.length,
               itemBuilder: (BuildContext context, i) {
+                if (dataArticles[i]['enabled'] == "1") {
+                  state = 'Activo';
+                } else {
+                  state = 'Inactivo';
+                }
                 Widget _imageShow() {
                   if (dataArticles[i]['picture'] == 'NO IMAGE') {
                     return Container();
@@ -984,12 +990,17 @@ class _HomeState extends State<Home> {
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
-                                          dataArticles[i]['price'] ?? 'N/A'),
+                                          '\$${dataArticles[i]['price']}' ??
+                                              'N/A'),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
                                           dataArticles[i]['quantity'] ?? 'N/A'),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Text(state),
                                     ),
                                   ],
                                 ),

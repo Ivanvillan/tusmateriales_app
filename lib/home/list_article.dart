@@ -456,13 +456,14 @@ class _ListArticlesState extends State<ListArticles> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
     var response = await http.get(
-        ('http://200.105.69.227/tusmateriales-api/public/index.php/articles/get/${widget.idCorral}/all/all'),
+        ('http://200.105.69.227/tusmateriales-api/public/index.php/articles/get/${widget.idCorral}/all/1'),
         headers: {'Accept': 'application/json', 'Cookie': cookies});
     var body = json.decode(response.body);
     setState(() {
       data = body["result"];
     });
     print(body);
+    initMessage();
     return "Sucess";
   }
 
@@ -479,4 +480,13 @@ class _ListArticlesState extends State<ListArticles> {
   //   print(body);
   //   return "Sucess";
   // }
+
+  void initMessage() {
+    scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text('Presione el artículo que desee sumar al carrito'),
+        duration: Duration(seconds: 3),
+      ),
+    );
+  }
 }
