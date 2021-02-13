@@ -36,6 +36,9 @@ dependencies:
   mercado_pago_mobile_checkout: ^0.0.2
   flutter_native_splash: ^0.1.9
   mailer: any
+  retry: ^3.0.1
+  connectivity: ^2.0.2
+
 
 
 dev_dependencies:

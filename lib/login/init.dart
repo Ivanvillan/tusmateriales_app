@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tus_materiales_app/login/login.dart';
+import 'package:tus_materiales_app/login/not_connection.dart';
 import 'package:tus_materiales_app/login/register.dart';
 
 class Init extends StatefulWidget {
@@ -57,7 +58,9 @@ class _InitState extends State<Init> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Login(),
+                                    builder: (context) => ConnectivityCheck(
+                                      child: Login(),
+                                    ),
                                   ),
                                 );
                               },

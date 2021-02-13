@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,8 +29,8 @@ class _ListMessageState extends State<ListMessage> {
 
   @override
   void initState() {
-    getMessage();
     super.initState();
+    getConnection();
   }
 
   Widget _floatingButton() {
@@ -216,5 +217,51 @@ class _ListMessageState extends State<ListMessage> {
     print(body);
 
     return "Sucess";
+  }
+
+  getConnection() async{
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
+        // if(widget.roleUser == '3'){
+        //   Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => ListMessage(
+        //       idCorral: 'all',
+        //       idUser: widget.idUser,
+        //       client: true,
+        //       roleUser: '3',
+        //     ),
+        //   ),
+        // );
+        // }else if(widget.roleUser == '2'){
+        //   Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => ListMessage(
+        //       idCorral: widget.idCorral,
+        //       idUser: 'all',
+        //       client: false,
+        //       roleUser: '2',
+        //     ),
+        //   ),
+        // );
+        // }else{
+        //     Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => ListMessage(
+        //         idCorral: 'all',
+        //         idUser: 'all',
+        //         client: false,
+        //         roleUser: '1',
+        //       ),
+        //     ),
+        //   );
+        // }
+        getMessage();
+    } else{
+      print('no connection');
+    }
   }
 }
