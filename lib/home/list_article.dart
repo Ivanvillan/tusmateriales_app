@@ -1,5 +1,5 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -12,30 +12,38 @@ import 'package:tus_materiales_app/home/new_article.dart';
 import 'package:tus_materiales_app/home/show_article.dart';
 import 'package:tus_materiales_app/provider/cart_bloc.dart';
 
+//
 class ListArticles extends StatefulWidget {
+  // Parametros iniciales
   final idCorral;
   final client;
-
   ListArticles({Key key, @required this.idCorral, @required this.client})
       : super(key: key);
+  //
   @override
   _ListArticlesState createState() => _ListArticlesState();
 }
 
 class _ListArticlesState extends State<ListArticles> {
+  // Variables globales
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   var idImage;
   List data = List();
   List data2 = List();
-
+  //
+  // Control del valor de los inputs
   final TextEditingController quantityController = new TextEditingController();
-
+  //
+  //
   @override
   void initState() {
+    // Funciones iniciales
     getArticles();
+    //
     super.initState();
   }
 
+  // Floating button si el cliente es falso entonces se muestra un boton para agregar un articulo
   Widget _floatingButton() {
     if (widget.client == false) {
       return FloatingActionButton(
@@ -60,6 +68,7 @@ class _ListArticlesState extends State<ListArticles> {
     }
   }
 
+  //
   @override
   Widget build(BuildContext context) {
     var bloc = Provider.of<CustomerList>(context);
@@ -452,6 +461,7 @@ class _ListArticlesState extends State<ListArticles> {
     }
   }
 
+  // Funciones
   Future<String> getArticles() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -467,20 +477,6 @@ class _ListArticlesState extends State<ListArticles> {
     return "Sucess";
   }
 
-  // Future<String> getImages(id) async {
-  //   SharedPreferences localStorage = await SharedPreferences.getInstance();
-  //   var cookies = localStorage.getString('cookies');
-  //   var response = await http.get(
-  //       ('http://200.105.69.227/tusmateriales-api/public/index.php/articles/getimages/$id'),
-  //       headers: {'Accept': 'application/json', 'Cookie': cookies});
-  //   var body = json.decode(response.body);
-  //   setState(() {
-  //     data2 = body["result"];
-  //   });
-  //   print(body);
-  //   return "Sucess";
-  // }
-
   void initMessage() {
     scaffoldKey.currentState.showSnackBar(
       SnackBar(
@@ -489,4 +485,5 @@ class _ListArticlesState extends State<ListArticles> {
       ),
     );
   }
+  //
 }

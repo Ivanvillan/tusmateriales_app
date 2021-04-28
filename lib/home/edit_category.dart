@@ -1,11 +1,13 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tus_materiales_app/home/list_categories.dart';
 
+//
 class EditCategory extends StatefulWidget {
+  // Parametros iniciales
   final id;
   final state;
   final roleUser;
@@ -15,22 +17,27 @@ class EditCategory extends StatefulWidget {
       @required this.state,
       @required this.roleUser})
       : super(key: key);
+  //
   @override
   _EditCategoryState createState() => _EditCategoryState();
 }
 
 class _EditCategoryState extends State<EditCategory> {
+  // Variables globales
   List data = List();
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   var loading = false;
-
+  //
+  // Control del valor de los inputs
   TextEditingController denominationController;
   TextEditingController descriptionController;
-
+  //
   @override
   void initState() {
+    // Funciones iniciales
     getCategory();
+    //
     super.initState();
   }
 
@@ -39,6 +46,7 @@ class _EditCategoryState extends State<EditCategory> {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Editar categoria'),
           backgroundColor: Color(0xfff2920a),
@@ -48,6 +56,7 @@ class _EditCategoryState extends State<EditCategory> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         body: ListView(
           children: [
             Column(
@@ -128,6 +137,7 @@ class _EditCategoryState extends State<EditCategory> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          // Funcion
           onPressed: () {
             showDialog<bool>(
               context: context,
@@ -189,6 +199,7 @@ class _EditCategoryState extends State<EditCategory> {
               ),
             );
           },
+          //
           backgroundColor: Color(0xffe9501c),
           child: Icon(
             Icons.check,
@@ -199,6 +210,7 @@ class _EditCategoryState extends State<EditCategory> {
     );
   }
 
+  // Funciones
   Future<String> getCategory() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -218,4 +230,5 @@ class _EditCategoryState extends State<EditCategory> {
 
     return "Sucess";
   }
+  //
 }

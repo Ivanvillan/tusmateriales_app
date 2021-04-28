@@ -1,5 +1,5 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,12 +11,14 @@ import 'package:mercado_pago_mobile_checkout/mercado_pago_mobile_checkout.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 
+//
 class SendOrder extends StatefulWidget {
   @override
   _SendOrderState createState() => _SendOrderState();
 }
 
 class _SendOrderState extends State<SendOrder> {
+  // Variables globales
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   var idUser;
   List data = List();
@@ -26,14 +28,17 @@ class _SendOrderState extends State<SendOrder> {
   var direc;
   // ignore: unused_field
   String _mySelection;
-
+  //
   @override
   void initState() {
+    // Funciones iniciales
     getAddress();
     getUser();
+    //
     super.initState();
   }
 
+  // Modal para elegir direccion
   void showModal(context) {
     showModalBottomSheet(
       context: context,
@@ -74,12 +79,14 @@ class _SendOrderState extends State<SendOrder> {
       },
     );
   }
+  //
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Dirección de envío'),
           backgroundColor: Color(0xfff2920a),
@@ -89,6 +96,7 @@ class _SendOrderState extends State<SendOrder> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -266,6 +274,7 @@ class _SendOrderState extends State<SendOrder> {
     );
   }
 
+  // Funciones
   Future<String> getAddress() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     idUser = localStorage.getString('id');
@@ -340,4 +349,5 @@ class _SendOrderState extends State<SendOrder> {
       print('Message not sent. \n' + e.toString());
     }
   }
+  //
 }

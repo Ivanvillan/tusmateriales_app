@@ -1,29 +1,36 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+//
 class ShowMessage extends StatefulWidget {
+  // Parametros inciales
   final id;
   final client;
   ShowMessage({Key key, @required this.id, @required this.client})
       : super(key: key);
+  //
   @override
   _ShowMessageState createState() => _ShowMessageState();
 }
 
 class _ShowMessageState extends State<ShowMessage> {
+  // Variables globales
   List data = List();
   List data2 = List();
   List data3 = List();
   var reason;
   bool _loading = true;
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getMessage();
+    //
     super.initState();
   }
 
@@ -318,6 +325,7 @@ class _ShowMessageState extends State<ShowMessage> {
     );
   }
 
+  // Funciones
   Future<String> getMessage() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -369,4 +377,5 @@ class _ShowMessageState extends State<ShowMessage> {
       throw 'Could not launch $command';
     }
   }
+  //
 }

@@ -1,5 +1,5 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,25 +11,34 @@ import 'package:tus_materiales_app/home/new_category.dart';
 import 'package:http/http.dart' as http;
 import 'package:tus_materiales_app/provider/cart_bloc.dart';
 
+//
+//
 class ListCategories extends StatefulWidget {
+  // Parametros iniciales
   final idCorral;
   final roleUser;
   ListCategories({Key key, @required this.idCorral, @required this.roleUser})
       : super(key: key);
+  //
   @override
   _ListCategoriesState createState() => _ListCategoriesState();
 }
 
 class _ListCategoriesState extends State<ListCategories> {
+  // Variables globales
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   List data = List();
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getCategories();
+    //
     super.initState();
   }
 
+  // Floating button condicional para agregar una nueva categoria
   Widget _floatingButton() {
     if (widget.idCorral == '') {
       return FloatingActionButton(
@@ -53,6 +62,7 @@ class _ListCategoriesState extends State<ListCategories> {
       return Container();
     }
   }
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -333,6 +343,7 @@ class _ListCategoriesState extends State<ListCategories> {
     }
   }
 
+  // Funciones
   Future<String> getCategories() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -347,4 +358,5 @@ class _ListCategoriesState extends State<ListCategories> {
 
     return "Sucess";
   }
+  //
 }

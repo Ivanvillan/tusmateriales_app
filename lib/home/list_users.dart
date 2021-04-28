@@ -1,11 +1,12 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tus_materiales_app/home/edit_user.dart';
 import 'package:tus_materiales_app/home/home.dart';
 import 'package:tus_materiales_app/home/show_user.dart';
+//
 
 class ListUsers extends StatefulWidget {
   @override
@@ -13,11 +14,15 @@ class ListUsers extends StatefulWidget {
 }
 
 class _ListUsersState extends State<ListUsers> {
+  // Variables globales
   List data = List();
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getUser();
+    //
     super.initState();
   }
 
@@ -25,6 +30,7 @@ class _ListUsersState extends State<ListUsers> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        // Appbar
         appBar: AppBar(
           title: Text('Listado de usuario'),
           backgroundColor: Color(0xfff2920a),
@@ -48,6 +54,7 @@ class _ListUsersState extends State<ListUsers> {
             ),
           ),
         ),
+        //
         body: ListView.builder(
           itemCount: data == null ? 0 : data.length,
           itemBuilder: (BuildContext context, i) {
@@ -174,6 +181,7 @@ class _ListUsersState extends State<ListUsers> {
     );
   }
 
+  // Funciones
   Future<String> getUser() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -188,4 +196,5 @@ class _ListUsersState extends State<ListUsers> {
 
     return "Sucess";
   }
+  //
 }

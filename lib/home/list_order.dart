@@ -1,26 +1,33 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tus_materiales_app/home/detail_order.dart';
 import 'package:tus_materiales_app/home/home.dart';
 
+//
 class ListOrder extends StatefulWidget {
+  // Parametros iniciales
   final idUser;
   final stateOrder;
   ListOrder({Key key, @required this.idUser, @required this.stateOrder})
       : super(key: key);
+  //
   @override
   _ListOrderState createState() => _ListOrderState();
 }
 
 class _ListOrderState extends State<ListOrder> {
+  // Variables globales
   List data = List();
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getOrders();
+    //
     super.initState();
   }
 
@@ -28,6 +35,7 @@ class _ListOrderState extends State<ListOrder> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        // Appbar
         appBar: AppBar(
           title: Text('Listado de ordenes'),
           backgroundColor: Color(0xfff2920a),
@@ -51,6 +59,7 @@ class _ListOrderState extends State<ListOrder> {
             ),
           ),
         ),
+        //
         body: ListView.builder(
           itemCount: data == null ? 0 : data.length,
           itemBuilder: (BuildContext context, i) {
@@ -68,7 +77,6 @@ class _ListOrderState extends State<ListOrder> {
                   onTap: () {
                     final idOrder = data[i]['idorder'];
                     final idUser = widget.idUser;
-                    print(idOrder);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -122,6 +130,7 @@ class _ListOrderState extends State<ListOrder> {
     );
   }
 
+  // Funciones
   Future<String> getOrders() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -136,4 +145,5 @@ class _ListOrderState extends State<ListOrder> {
 
     return "Sucess";
   }
+  //
 }

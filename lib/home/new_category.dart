@@ -1,30 +1,38 @@
+// Librerias
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tus_materiales_app/home/list_categories.dart';
 
+//
 class NewCategory extends StatefulWidget {
+  // Parametros iniciales
   final roleUser;
   NewCategory({Key key, @required this.roleUser}) : super(key: key);
+  //
   @override
   _NewCategoryState createState() => _NewCategoryState();
 }
 
 class _NewCategoryState extends State<NewCategory> {
+  // Variables globales
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   var loading = false;
-
+  //
+  // Control del valor de los inputs
   final TextEditingController denominationController =
       new TextEditingController();
   final TextEditingController descriptionController =
       new TextEditingController();
+  //
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Agregar categoria'),
           backgroundColor: Color(0xfff2920a),
@@ -34,6 +42,7 @@ class _NewCategoryState extends State<NewCategory> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         body: ListView(
           children: [
             Column(
@@ -114,6 +123,7 @@ class _NewCategoryState extends State<NewCategory> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          // Funcion
           onPressed: () {
             showDialog<bool>(
               context: context,
@@ -174,6 +184,7 @@ class _NewCategoryState extends State<NewCategory> {
               ),
             );
           },
+          //
           backgroundColor: Color(0xffe9501c),
           child: Icon(
             Icons.check,

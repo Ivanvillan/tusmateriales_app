@@ -1,23 +1,30 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+//
 class ShowCorral extends StatefulWidget {
+  // Parametros
   final id;
   ShowCorral({Key key, @required this.id}) : super(key: key);
+  //
   @override
   _ShowCorralState createState() => _ShowCorralState();
 }
 
 class _ShowCorralState extends State<ShowCorral> {
+  // Variables globales
   List data = List();
   var state;
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getCorral();
+    //
     super.initState();
   }
 
@@ -25,6 +32,7 @@ class _ShowCorralState extends State<ShowCorral> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        // Appbar
         appBar: AppBar(
           title: Text('Información del corralon'),
           backgroundColor: Color(0xfff2920a),
@@ -34,6 +42,7 @@ class _ShowCorralState extends State<ShowCorral> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         body: ListView.builder(
           itemCount: data == null ? 0 : data.length,
           itemBuilder: (BuildContext context, i) {
@@ -129,6 +138,7 @@ class _ShowCorralState extends State<ShowCorral> {
     );
   }
 
+  // Funciones
   Future<String> getCorral() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -141,4 +151,5 @@ class _ShowCorralState extends State<ShowCorral> {
     });
     return "Sucess";
   }
+  //
 }

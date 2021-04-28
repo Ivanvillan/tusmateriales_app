@@ -1,5 +1,5 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,23 +8,31 @@ import 'package:tus_materiales_app/home/home.dart';
 import 'package:tus_materiales_app/home/new_corral.dart';
 import 'package:tus_materiales_app/home/show_corral.dart';
 
+//
+//
 class ListCorral extends StatefulWidget {
+  // Parametros iniciales
   final role;
   ListCorral({Key key, @required this.role}) : super(key: key);
+  //
   @override
   _ListCorralState createState() => _ListCorralState();
 }
 
 class _ListCorralState extends State<ListCorral> {
+  // Variables globales
   List data = List();
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getCorral();
-    print(widget.role);
+    //
     super.initState();
   }
 
+  // Floatingbutton condicional para agregar un corralon
   Widget _floatingButton() {
     if (widget.role == '1') {
       return FloatingActionButton(
@@ -46,11 +54,13 @@ class _ListCorralState extends State<ListCorral> {
       return Container();
     }
   }
+  //
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        // Appbar
         appBar: AppBar(
           title: Text('Listado de corralones'),
           backgroundColor: Color(0xfff2920a),
@@ -74,6 +84,7 @@ class _ListCorralState extends State<ListCorral> {
             ),
           ),
         ),
+        //
         body: ListView.builder(
           itemCount: data == null ? 0 : data.length,
           itemBuilder: (BuildContext context, i) {
@@ -170,7 +181,7 @@ class _ListCorralState extends State<ListCorral> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => ListCorral(
-                                            role: 'Administrador',
+                                            role: '1',
                                           ),
                                         ),
                                       );
@@ -276,6 +287,7 @@ class _ListCorralState extends State<ListCorral> {
     );
   }
 
+  // Funciones
   Future<String> getCorral() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -290,4 +302,5 @@ class _ListCorralState extends State<ListCorral> {
 
     return "Sucess";
   }
+  //
 }

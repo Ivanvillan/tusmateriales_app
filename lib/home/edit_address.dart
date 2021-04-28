@@ -1,29 +1,37 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tus_materiales_app/home/list_address.dart';
+//
 
 class EditAddress extends StatefulWidget {
+  // Parametros iniciales
   final id;
   EditAddress({Key key, @required this.id}) : super(key: key);
+  //
   @override
   _EditAddressState createState() => _EditAddressState();
 }
 
 class _EditAddressState extends State<EditAddress> {
+  // Variables globales
   List data = List();
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   var loading = false;
-
+  //
+  // Control del valor de los inputs
   TextEditingController locationController;
   TextEditingController cityController;
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getAddress();
+    //
     super.initState();
   }
 
@@ -32,6 +40,7 @@ class _EditAddressState extends State<EditAddress> {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Agregar dirección'),
           backgroundColor: Color(0xfff2920a),
@@ -41,6 +50,7 @@ class _EditAddressState extends State<EditAddress> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         body: ListView(
           children: [
             Column(
@@ -122,6 +132,7 @@ class _EditAddressState extends State<EditAddress> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            // Funcion
             showDialog<bool>(
               context: context,
               builder: (c) => AlertDialog(
@@ -178,6 +189,7 @@ class _EditAddressState extends State<EditAddress> {
                 ],
               ),
             );
+            //
           },
           backgroundColor: Color(0xffe9501c),
           child: Icon(
@@ -189,6 +201,7 @@ class _EditAddressState extends State<EditAddress> {
     );
   }
 
+  // Funciones
   Future<String> getAddress() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -206,4 +219,5 @@ class _EditAddressState extends State<EditAddress> {
 
     return "Sucess";
   }
+  //
 }

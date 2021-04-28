@@ -1,5 +1,5 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -28,16 +28,20 @@ import 'package:tus_materiales_app/login/init.dart';
 import 'package:tus_materiales_app/login/register.dart';
 import 'package:tus_materiales_app/provider/cart_bloc.dart';
 
+//
 class Home extends StatefulWidget {
+  // Parametros iniciales
   final stateOrders;
   final typeUser;
   Home({Key key, @required this.stateOrders, @required this.typeUser})
       : super(key: key);
+  //
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  // Variables globales
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   String username;
   String email;
@@ -50,13 +54,17 @@ class _HomeState extends State<Home> {
   bool _loading = true;
   var roleProfile;
   var state;
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     initVar();
+    //
     super.initState();
   }
 
+  // Perfil del usuario en menú
   _handleDrawer() async {
     setState(() {
       if (widget.typeUser == '1') {
@@ -70,8 +78,11 @@ class _HomeState extends State<Home> {
     scaffoldKey.currentState.openDrawer();
   }
 
+  //
+  // Menú según el tipo de usuario
   Widget _buildDrawer() {
     if (roleProfile == 'Administrador') {
+      // Administrador
       return Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -375,7 +386,9 @@ class _HomeState extends State<Home> {
           ],
         ),
       );
+      //
     } else if (roleProfile == 'Responsable') {
+      // Responsable
       return Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -576,7 +589,9 @@ class _HomeState extends State<Home> {
           ],
         ),
       );
+      //
     } else {
+      // Cliente
       return Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -793,12 +808,15 @@ class _HomeState extends State<Home> {
           ],
         ),
       );
+      //
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // Screen según el tipo de usuario
     if (widget.typeUser == '1') {
+      // Administrador
       return WillPopScope(
         onWillPop: () => showDialog<bool>(
           context: context,
@@ -900,7 +918,9 @@ class _HomeState extends State<Home> {
           ),
         ),
       );
+      //
     } else if (widget.typeUser == '2') {
+      // Responsable
       return WillPopScope(
         onWillPop: () => showDialog<bool>(
           context: context,
@@ -1090,7 +1110,9 @@ class _HomeState extends State<Home> {
           ),
         ),
       );
+      //
     } else if (widget.typeUser == '3') {
+      // Cliente
       var bloc = Provider.of<CustomerList>(context);
       int totalCount = 0;
       if (bloc.customers.length > 0) {
@@ -1252,7 +1274,9 @@ class _HomeState extends State<Home> {
           ),
         ),
       );
+      //
     } else {
+      // Si el valor del tipo de usuario es 0
       MaterialApp(
         home: Scaffold(
           body: Center(
@@ -1268,6 +1292,7 @@ class _HomeState extends State<Home> {
     }
   }
 
+  // Funciones
   void initVar() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     username = localStorage.getString('username');
@@ -1334,6 +1359,7 @@ class _HomeState extends State<Home> {
 
   Future<String> getArticles() async {
     var idCorral = dataCorral[0]['idcorral'];
+    print(idCorral);
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
     var response = await http.get(
@@ -1372,4 +1398,5 @@ class _HomeState extends State<Home> {
       ));
     }
   }
+  //
 }

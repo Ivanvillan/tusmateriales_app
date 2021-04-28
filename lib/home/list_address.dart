@@ -1,5 +1,5 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,18 +7,23 @@ import 'package:tus_materiales_app/home/edit_address.dart';
 import 'package:tus_materiales_app/home/home.dart';
 import 'package:tus_materiales_app/home/new_address.dart';
 
+//
 class ListAddress extends StatefulWidget {
   @override
   _ListAddressState createState() => _ListAddressState();
 }
 
 class _ListAddressState extends State<ListAddress> {
+  // Variables globales
   List data = List();
   var idUser;
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getAddress();
+    //
     super.initState();
   }
 
@@ -26,6 +31,7 @@ class _ListAddressState extends State<ListAddress> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        // Appbar
         appBar: AppBar(
           title: Text('Listado de direcciones'),
           backgroundColor: Color(0xfff2920a),
@@ -49,6 +55,7 @@ class _ListAddressState extends State<ListAddress> {
             ),
           ),
         ),
+        //
         body: ListView.builder(
           itemCount: data == null ? 0 : data.length,
           itemBuilder: (BuildContext context, i) {
@@ -144,6 +151,7 @@ class _ListAddressState extends State<ListAddress> {
             );
           },
         ),
+        // Nueva direccion
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(
@@ -162,10 +170,12 @@ class _ListAddressState extends State<ListAddress> {
             color: Colors.white,
           ),
         ),
+        //
       ),
     );
   }
 
+  // Funciones
   Future<String> getAddress() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -181,4 +191,5 @@ class _ListAddressState extends State<ListAddress> {
 
     return "Sucess";
   }
+  //
 }

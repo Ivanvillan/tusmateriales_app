@@ -1,12 +1,15 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tus_materiales_app/home/home.dart';
 import 'package:tus_materiales_app/home/list_order.dart';
 
+//
+//
 class DetailOrder extends StatefulWidget {
+  // Parametros iniciales
   final idOrder;
   final client;
   final orderState;
@@ -18,21 +21,27 @@ class DetailOrder extends StatefulWidget {
       this.orderState,
       this.idUser})
       : super(key: key);
+  //
   @override
   _DetailOrderState createState() => _DetailOrderState();
 }
 
 class _DetailOrderState extends State<DetailOrder> {
+  // Variables globales
   List data = List();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  //
+  //
   @override
   void initState() {
+    // Funciones iniciales
     getDetail();
+    //
     super.initState();
   }
 
   Widget orderState() {
+    // Botón de cancelar orden si es la orden es de estado 1
     if (widget.orderState == '1') {
       return Padding(
         padding: const EdgeInsets.all(8.0),
@@ -56,6 +65,8 @@ class _DetailOrderState extends State<DetailOrder> {
 
   @override
   Widget build(BuildContext context) {
+    // Navegación, si se vuelve para atras y es cliente va al listado de ordenes con el estado heredado...
+    // si es administrador o corralon vuelve al inicio
     void navigatorPush() {
       if (widget.client == true) {
         Navigator.push(
@@ -80,6 +91,8 @@ class _DetailOrderState extends State<DetailOrder> {
       }
     }
 
+    //
+    // Floating button, si el usuario es cliente se agrega boton para cancelar la orden
     Widget _floatingButton() {
       if (widget.client == true) {
         return FloatingActionButton(
@@ -121,6 +134,7 @@ class _DetailOrderState extends State<DetailOrder> {
 
     return MaterialApp(
       home: Scaffold(
+        // Appbar
         appBar: AppBar(
           title: Text('Listado de pedido'),
           backgroundColor: Color(0xfff2920a),
@@ -136,9 +150,11 @@ class _DetailOrderState extends State<DetailOrder> {
             onPressed: () => navigatorPush(),
           ),
         ),
+        //
         body: ListView.builder(
           itemCount: data == null ? 0 : data.length,
           itemBuilder: (BuildContext context, i) {
+            // Si la orden es de estado 1, o sea pendiente, se puede cancelar
             Widget itemState() {
               if (widget.orderState == '1') {
                 return Column(
@@ -183,9 +199,11 @@ class _DetailOrderState extends State<DetailOrder> {
                 return Container();
               }
             }
+            //
 
             Widget itemStateClient() {
               if (widget.orderState == '1') {
+                // Si la orden es de estado 1, o sea, pendiente se puede cancelar
                 return Column(
                   children: <Widget>[
                     Container(
@@ -230,6 +248,8 @@ class _DetailOrderState extends State<DetailOrder> {
               }
             }
 
+            //
+            // si cliente es falso se muestran botones para cambiar de estado la orden
             if (widget.client == false) {
               return Column(
                 children: <Widget>[
@@ -426,7 +446,9 @@ class _DetailOrderState extends State<DetailOrder> {
                   ),
                 ],
               );
+              //
             } else {
+              // Se muestra el detalle de la orden y un boton para cancelar la orden si es de estado 1
               return Column(
                 children: <Widget>[
                   Card(
@@ -487,6 +509,7 @@ class _DetailOrderState extends State<DetailOrder> {
     );
   }
 
+  // Funciones
   Future<String> getDetail() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -501,4 +524,5 @@ class _DetailOrderState extends State<DetailOrder> {
 
     return "Sucess";
   }
+  //
 }

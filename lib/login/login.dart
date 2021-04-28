@@ -1,30 +1,34 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tus_materiales_app/home/home.dart';
 
+//
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
+  // Variables globales
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   bool loading = false;
-
+  var cookies = "";
+  //
+  // Controlador de valores en los inputs
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
-
+  //
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        // Appbar
         appBar: AppBar(
           title: Text('Inicio de sesión'),
           backgroundColor: Color(0xfff2920a),
@@ -34,6 +38,7 @@ class _LoginState extends State<Login> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         key: scaffoldKey,
         body: ListView(
           children: <Widget>[
@@ -130,8 +135,6 @@ class _LoginState extends State<Login> {
     );
   }
 
-  var cookies = "";
-
   showMsg(msg) {
     final snackBar = SnackBar(
       content: Text(msg),
@@ -143,6 +146,7 @@ class _LoginState extends State<Login> {
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
+  // Funciones
   login() async {
     setState(() {
       loading = true;

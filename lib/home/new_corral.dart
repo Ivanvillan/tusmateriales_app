@@ -1,17 +1,19 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:tus_materiales_app/home/home.dart';
 import 'package:tus_materiales_app/home/list_corral.dart';
 
+//
 class NewCorral extends StatefulWidget {
   @override
   _NewCorralState createState() => _NewCorralState();
 }
 
 class _NewCorralState extends State<NewCorral> {
+  // Variables globales
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   List data = List();
@@ -21,7 +23,8 @@ class _NewCorralState extends State<NewCorral> {
   var client;
   // ignore: unused_field
   String _mySelection;
-
+  //
+  // Control del valor de los inputs
   final TextEditingController businessnameController =
       new TextEditingController();
   final TextEditingController phoneController = new TextEditingController();
@@ -29,13 +32,16 @@ class _NewCorralState extends State<NewCorral> {
       new TextEditingController();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController addressController = new TextEditingController();
-
+  //
   @override
   void initState() {
+    // Funciones iniciales
     getClient();
+    //
     super.initState();
   }
 
+  // Modal para mostrar responsables
   void showModal(context) {
     showModalBottomSheet(
       context: context,
@@ -76,12 +82,14 @@ class _NewCorralState extends State<NewCorral> {
       },
     );
   }
+  //
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Agregar corralon'),
           backgroundColor: Color(0xfff2920a),
@@ -99,6 +107,7 @@ class _NewCorralState extends State<NewCorral> {
             ),
           ),
         ),
+        //
         body: ListView(
           children: [
             Column(
@@ -282,6 +291,7 @@ class _NewCorralState extends State<NewCorral> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          // Funcion
           onPressed: () {
             showDialog<bool>(
               context: context,
@@ -345,6 +355,7 @@ class _NewCorralState extends State<NewCorral> {
               ),
             );
           },
+          //
           backgroundColor: Color(0xffe9501c),
           child: Icon(
             Icons.check,
@@ -355,6 +366,7 @@ class _NewCorralState extends State<NewCorral> {
     );
   }
 
+  // Funciones
   showMsg(msg) {
     final snackBar = SnackBar(
       content: Text(msg),
@@ -380,4 +392,5 @@ class _NewCorralState extends State<NewCorral> {
 
     return "Sucess";
   }
+  //
 }

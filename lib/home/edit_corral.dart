@@ -1,18 +1,22 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tus_materiales_app/home/list_corral.dart';
+//
 
 class EditCorral extends StatefulWidget {
+  // Parametros iniciales
   final id;
   EditCorral({Key key, @required this.id}) : super(key: key);
+  //
   @override
   _EditCorralState createState() => _EditCorralState();
 }
 
 class _EditCorralState extends State<EditCorral> {
+  // Variables globales
   List data = List();
   List data2 = List();
   final _formKey = GlobalKey<FormState>();
@@ -23,20 +27,25 @@ class _EditCorralState extends State<EditCorral> {
   var client;
   // ignore: unused_field
   String _mySelection;
-
+  //
+  // Control del valor de los inputs
   TextEditingController businessnameController;
   TextEditingController phoneController;
   TextEditingController alternativephoneController;
   TextEditingController emailController;
   TextEditingController addressController;
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getClient();
     getCorral();
+    //
     super.initState();
   }
 
+  // Modal para agregar un responsable
   void showModal(context) {
     showModalBottomSheet(
       context: context,
@@ -77,12 +86,14 @@ class _EditCorralState extends State<EditCorral> {
       },
     );
   }
+  //
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Editar corralon'),
           backgroundColor: Color(0xfff2920a),
@@ -92,6 +103,7 @@ class _EditCorralState extends State<EditCorral> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         body: ListView(
           children: [
             Column(
@@ -275,6 +287,7 @@ class _EditCorralState extends State<EditCorral> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          // Funcion
           onPressed: () {
             showDialog<bool>(
               context: context,
@@ -339,6 +352,7 @@ class _EditCorralState extends State<EditCorral> {
               ),
             );
           },
+          //
           backgroundColor: Color(0xffe9501c),
           child: Icon(
             Icons.check,
@@ -349,6 +363,7 @@ class _EditCorralState extends State<EditCorral> {
     );
   }
 
+  // Funciones
   showMsg(msg) {
     final snackBar = SnackBar(
       content: Text(msg),
@@ -396,4 +411,5 @@ class _EditCorralState extends State<EditCorral> {
 
     return "Sucess";
   }
+  //
 }

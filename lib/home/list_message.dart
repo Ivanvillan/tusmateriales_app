@@ -1,6 +1,5 @@
+// librerias
 import 'dart:convert';
-
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,7 +7,9 @@ import 'package:tus_materiales_app/home/home.dart';
 import 'package:tus_materiales_app/home/new_message.dart';
 import 'package:tus_materiales_app/home/show_message.dart';
 
+//
 class ListMessage extends StatefulWidget {
+  // parametros iniciales
   final idCorral;
   final idUser;
   final client;
@@ -20,19 +21,24 @@ class ListMessage extends StatefulWidget {
       @required this.client,
       @required this.roleUser})
       : super(key: key);
+  //
   @override
   _ListMessageState createState() => _ListMessageState();
 }
 
 class _ListMessageState extends State<ListMessage> {
+  // variables globales
   List data = List();
-
+  //
   @override
   void initState() {
+    // funciones iniciales
+    getMessage();
+    //
     super.initState();
-    getConnection();
   }
 
+  // muestra un floating button si es un cliente
   Widget _floatingButton() {
     if (widget.client == true) {
       return FloatingActionButton(
@@ -56,11 +62,13 @@ class _ListMessageState extends State<ListMessage> {
       return Container();
     }
   }
+  //
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        // Appbar
         appBar: AppBar(
           title: Text('Listado de mensajes'),
           backgroundColor: Color(0xfff2920a),
@@ -84,6 +92,7 @@ class _ListMessageState extends State<ListMessage> {
             ),
           ),
         ),
+        //
         body: ListView.builder(
           itemCount: data == null ? 0 : data.length,
           itemBuilder: (BuildContext context, i) {
@@ -95,6 +104,7 @@ class _ListMessageState extends State<ListMessage> {
             } else {
               reason = 'Otro';
             }
+            // listado de mensajes si es cliente
             if (widget.client == true) {
               return Column(
                 children: <Widget>[
@@ -146,6 +156,8 @@ class _ListMessageState extends State<ListMessage> {
                   ),
                 ],
               );
+              //
+              // listado de mensajes si es corralon o administrador
             } else {
               return Column(
                 children: <Widget>[
@@ -204,6 +216,7 @@ class _ListMessageState extends State<ListMessage> {
     );
   }
 
+  // Funciones
   Future<String> getMessage() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -218,50 +231,5 @@ class _ListMessageState extends State<ListMessage> {
 
     return "Sucess";
   }
-
-  getConnection() async{
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
-        // if(widget.roleUser == '3'){
-        //   Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => ListMessage(
-        //       idCorral: 'all',
-        //       idUser: widget.idUser,
-        //       client: true,
-        //       roleUser: '3',
-        //     ),
-        //   ),
-        // );
-        // }else if(widget.roleUser == '2'){
-        //   Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => ListMessage(
-        //       idCorral: widget.idCorral,
-        //       idUser: 'all',
-        //       client: false,
-        //       roleUser: '2',
-        //     ),
-        //   ),
-        // );
-        // }else{
-        //     Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => ListMessage(
-        //         idCorral: 'all',
-        //         idUser: 'all',
-        //         client: false,
-        //         roleUser: '1',
-        //       ),
-        //     ),
-        //   );
-        // }
-        getMessage();
-    } else{
-      print('no connection');
-    }
-  }
+  //
 }

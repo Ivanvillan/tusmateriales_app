@@ -1,3 +1,4 @@
+// Librerias
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
@@ -11,15 +12,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:tus_materiales_app/home/home.dart';
 import 'package:tus_materiales_app/home/list_article.dart';
+//
 
 class EditArticle extends StatefulWidget {
+  // Parametros iniciales
   final id;
   EditArticle({Key key, @required this.id}) : super(key: key);
+  //
   @override
   _EditArticleState createState() => _EditArticleState();
 }
 
 class _EditArticleState extends State<EditArticle> {
+  // Variables globales
   List data = List();
   List data2 = List();
   List data3 = List();
@@ -36,12 +41,15 @@ class _EditArticleState extends State<EditArticle> {
   String errMessage = 'Error al subir imagen';
   String status = '';
   bool redirect = false;
-
+  //
+  // Control del valor de los inputs
   TextEditingController brandController;
   TextEditingController nomenclatureController;
   TextEditingController priceController;
   TextEditingController quantityController;
-
+  //
+  //
+  // Widget para mostrar imagen a subir
   Widget showImage() {
     return FutureBuilder<File>(
       future: file,
@@ -72,6 +80,9 @@ class _EditArticleState extends State<EditArticle> {
     );
   }
 
+  //
+  //
+  // Modal para elegir el producto a subir
   void showModal(context) {
     showModalBottomSheet(
       context: context,
@@ -113,11 +124,14 @@ class _EditArticleState extends State<EditArticle> {
       },
     );
   }
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getArticle();
     getGeneric();
+    //
     super.initState();
   }
 
@@ -126,6 +140,7 @@ class _EditArticleState extends State<EditArticle> {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Editar artículo'),
           backgroundColor: Color(0xfff2920a),
@@ -143,6 +158,7 @@ class _EditArticleState extends State<EditArticle> {
             ),
           ),
         ),
+        //
         body: ListView(
           children: [
             Column(
@@ -344,6 +360,7 @@ class _EditArticleState extends State<EditArticle> {
                           : Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
                               child: RaisedButton(
+                                // Funcion
                                 onPressed: () async {
                                   SharedPreferences localStorage =
                                       await SharedPreferences.getInstance();
@@ -382,13 +399,14 @@ class _EditArticleState extends State<EditArticle> {
                                     );
                                   }
                                 },
+                                //
                                 color: Color(0xffe9501c),
                                 child: Text(
                                   'Editar artículo',
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
-                            )
+                            ),
                     ],
                   ),
                 )
@@ -400,6 +418,7 @@ class _EditArticleState extends State<EditArticle> {
     );
   }
 
+  // Funciones
   Future<String> getArticle() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -511,4 +530,5 @@ class _EditArticleState extends State<EditArticle> {
       loading = false;
     });
   }
+  //
 }

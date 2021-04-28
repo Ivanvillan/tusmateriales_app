@@ -1,20 +1,24 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tus_materiales_app/home/list_product.dart';
 
+//
 class EditProduct extends StatefulWidget {
+  // Parametros iniciales
   final id;
   final roleUser;
   EditProduct({Key key, @required this.id, @required this.roleUser})
       : super(key: key);
+  //
   @override
   _EditProductState createState() => _EditProductState();
 }
 
 class _EditProductState extends State<EditProduct> {
+  // Variables globales
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   List data = List();
@@ -25,18 +29,23 @@ class _EditProductState extends State<EditProduct> {
   var cat;
   // ignore: unused_field
   String _mySelection;
-
+  //
+  // Control del valor de los inputs
   TextEditingController detailController = new TextEditingController();
   TextEditingController additionalinformationController =
       new TextEditingController();
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getCategories();
     getProduct();
+    //
     super.initState();
   }
 
+  // modal para elegir el producto
   void showModal(context) {
     showModalBottomSheet(
       context: context,
@@ -77,12 +86,14 @@ class _EditProductState extends State<EditProduct> {
       },
     );
   }
+  //
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Agregar producto'),
           backgroundColor: Color(0xfff2920a),
@@ -92,6 +103,7 @@ class _EditProductState extends State<EditProduct> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         body: ListView(
           children: [
             Column(
@@ -186,6 +198,7 @@ class _EditProductState extends State<EditProduct> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          // Funcion
           onPressed: () {
             showDialog<bool>(
               context: context,
@@ -248,6 +261,7 @@ class _EditProductState extends State<EditProduct> {
               ),
             );
           },
+          //
           backgroundColor: Color(0xffe9501c),
           child: Icon(
             Icons.check,
@@ -258,6 +272,7 @@ class _EditProductState extends State<EditProduct> {
     );
   }
 
+  // Funciones
   Future<String> getCategories() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -292,4 +307,5 @@ class _EditProductState extends State<EditProduct> {
         new TextEditingController(text: data2[0]['additionalinformation']);
     return "Sucess";
   }
+  //
 }

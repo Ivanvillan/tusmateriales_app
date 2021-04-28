@@ -1,29 +1,37 @@
+// Librerias
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tus_materiales_app/home/list_address.dart';
 import 'package:tus_materiales_app/home/send_order.dart';
 
+//
 class NewAddress extends StatefulWidget {
+  // Parametros iniciales
   final idUser;
   final onShop;
   NewAddress({Key key, @required this.idUser, @required this.onShop})
       : super(key: key);
+  //
   @override
   _NewAddressState createState() => _NewAddressState();
 }
 
 class _NewAddressState extends State<NewAddress> {
+  // Variables globales
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  //
+  // Control del valor de los inputs
   final TextEditingController locationController = new TextEditingController();
   final TextEditingController cityController = new TextEditingController();
+  //
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Agregar dirección'),
           backgroundColor: Color(0xfff2920a),
@@ -33,6 +41,7 @@ class _NewAddressState extends State<NewAddress> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         body: ListView(
           children: [
             Column(
@@ -113,6 +122,7 @@ class _NewAddressState extends State<NewAddress> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          // Funcion
           onPressed: () {
             showDialog<bool>(
               context: context,
@@ -186,6 +196,7 @@ class _NewAddressState extends State<NewAddress> {
               ),
             );
           },
+          //
           backgroundColor: Color(0xffe9501c),
           child: Icon(
             Icons.check,

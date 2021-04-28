@@ -1,5 +1,5 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -7,13 +7,17 @@ import 'package:tus_materiales_app/home/list_message.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 
+//
 class NewMessage extends StatefulWidget {
+  // Parametros iniciales
   final roleUser;
   NewMessage({Key key, @required this.roleUser}) : super(key: key);
+  //
   @override
   _NewMessageState createState() => _NewMessageState();
 }
 
+// Dropdown para elegir el motivo del mensaje
 class Reason {
   int id;
   String name;
@@ -29,7 +33,9 @@ class Reason {
   }
 }
 
+//
 class _NewMessageState extends State<NewMessage> {
+  // Variables globales
   List<Reason> _reason = Reason.getReason();
   List<DropdownMenuItem<Reason>> _dropdownMenuItems;
   Reason _selectedReason;
@@ -46,17 +52,21 @@ class _NewMessageState extends State<NewMessage> {
   // ignore: unused_field
   String _mySelection;
   var id;
-
+  //
+  // Control del valor de los inputs
   final TextEditingController textController = new TextEditingController();
-
+  //
   @override
   void initState() {
+    // Funciones y valores inciales
     _dropdownMenuItems = buildDropdownMenuItems(_reason);
     getCorral();
     getUser();
+    //
     super.initState();
   }
 
+  // Modal para elegir corralon en mensaje
   void showModal(context) {
     showModalBottomSheet(
       context: context,
@@ -98,12 +108,14 @@ class _NewMessageState extends State<NewMessage> {
       },
     );
   }
+  //
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Enviar mensaje'),
           backgroundColor: Color(0xfff2920a),
@@ -113,6 +125,7 @@ class _NewMessageState extends State<NewMessage> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         body: ListView(
           children: [
             Column(
@@ -190,6 +203,7 @@ class _NewMessageState extends State<NewMessage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          // Funcion
           onPressed: () {
             showDialog<bool>(
               context: context,
@@ -254,6 +268,7 @@ class _NewMessageState extends State<NewMessage> {
               ),
             );
           },
+          //
           backgroundColor: Color(0xffe9501c),
           child: Icon(
             Icons.check,
@@ -264,6 +279,7 @@ class _NewMessageState extends State<NewMessage> {
     );
   }
 
+  // Funciones
   List<DropdownMenuItem<Reason>> buildDropdownMenuItems(List reasons) {
     List<DropdownMenuItem<Reason>> items = List();
     for (Reason reason in reasons) {
@@ -355,4 +371,5 @@ class _NewMessageState extends State<NewMessage> {
       print('Message not sent. \n' + e.toString());
     }
   }
+  //
 }

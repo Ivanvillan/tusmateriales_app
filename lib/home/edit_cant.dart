@@ -1,3 +1,4 @@
+// Librerias
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -5,34 +6,42 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tus_materiales_app/home/home.dart';
 import 'package:tus_materiales_app/home/list_article.dart';
 
+//
 class EditCant extends StatefulWidget {
+  // Parametros iniciales
   final id;
   EditCant({Key key, @required this.id}) : super(key: key);
+  //
   @override
   _EditCantState createState() => _EditCantState();
 }
 
 class _EditCantState extends State<EditCant> {
+  // Variables globales
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   var loading = false;
-
   List<dynamic> data;
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getArticle();
+    //
     super.initState();
   }
 
+  // Control del valor de los inputs
   TextEditingController quantityController = new TextEditingController();
   TextEditingController priceController = new TextEditingController();
-
+  //
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Editar cantidad y precio del artículo'),
           backgroundColor: Color(0xfff2920a),
@@ -50,6 +59,7 @@ class _EditCantState extends State<EditCant> {
             ),
           ),
         ),
+        //
         body: Center(
           child: Form(
             key: _formKey,
@@ -120,6 +130,7 @@ class _EditCantState extends State<EditCant> {
                       : Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: RaisedButton(
+                            // Funcion
                             onPressed: () async {
                               SharedPreferences localStorage =
                                   await SharedPreferences.getInstance();
@@ -166,6 +177,7 @@ class _EditCantState extends State<EditCant> {
                                 );
                               }
                             },
+                            //
                             color: Color(0xffe9501c),
                             child: Text(
                               'Editar',
@@ -182,6 +194,7 @@ class _EditCantState extends State<EditCant> {
     );
   }
 
+  // Funciones
   Future<String> getArticle() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -198,4 +211,5 @@ class _EditCantState extends State<EditCant> {
     priceController = TextEditingController(text: data[0]['article']['price']);
     return "Sucess";
   }
+  //
 }

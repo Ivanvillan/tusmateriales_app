@@ -1,5 +1,5 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tus_materiales_app/home/edit_product.dart';
@@ -8,22 +8,29 @@ import 'package:tus_materiales_app/home/new_product.dart';
 import 'package:http/http.dart' as http;
 import 'package:tus_materiales_app/home/show_product.dart';
 
+//
 class ListProduct extends StatefulWidget {
+  // Parametros iniciales
   final roleUser;
   ListProduct({
     Key key,
     @required this.roleUser,
   }) : super(key: key);
+  //
   @override
   _ListProductState createState() => _ListProductState();
 }
 
 class _ListProductState extends State<ListProduct> {
+  // Variables iniciales
   List data = List();
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getProducts();
+    //
     super.initState();
   }
 
@@ -31,6 +38,7 @@ class _ListProductState extends State<ListProduct> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        // Appbar
         appBar: AppBar(
           title: Text('Listado de productos'),
           backgroundColor: Color(0xfff2920a),
@@ -54,6 +62,7 @@ class _ListProductState extends State<ListProduct> {
             ),
           ),
         ),
+        //
         body: ListView.builder(
           itemCount: data == null ? 0 : data.length,
           itemBuilder: (BuildContext context, i) {
@@ -192,6 +201,7 @@ class _ListProductState extends State<ListProduct> {
     );
   }
 
+  // Funciones
   Future<String> getProducts() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -206,4 +216,5 @@ class _ListProductState extends State<ListProduct> {
 
     return "Sucess";
   }
+  //
 }

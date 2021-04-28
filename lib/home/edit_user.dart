@@ -1,17 +1,21 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:tus_materiales_app/home/list_users.dart';
 
+//
 class EditUser extends StatefulWidget {
+  // Parametros iniciales
   final id;
   EditUser({Key key, @required this.id}) : super(key: key);
+  //
   @override
   _EditUserState createState() => _EditUserState();
 }
 
+// Dropdown para elegir el tipo de usuario
 class Role {
   int id;
   String name;
@@ -26,8 +30,10 @@ class Role {
     ];
   }
 }
+//
 
 class _EditUserState extends State<EditUser> {
+  // Variables globales
   List data = List();
   var state;
   var rol;
@@ -37,17 +43,20 @@ class _EditUserState extends State<EditUser> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   bool loading = false;
-
+  //
+  // Control del valor de los inputs
   TextEditingController nameController;
   TextEditingController surnameController;
   TextEditingController emailController;
   TextEditingController passwordController;
   TextEditingController phoneController;
-
+  //
   @override
   void initState() {
+    // Funciones y valores inciales
     _dropdownMenuItems = buildDropdownMenuItems(_role);
     getUser();
+    //
     super.initState();
   }
 
@@ -56,6 +65,7 @@ class _EditUserState extends State<EditUser> {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Editar usuario'),
           backgroundColor: Color(0xfff2920a),
@@ -65,6 +75,7 @@ class _EditUserState extends State<EditUser> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         body: ListView(
           children: <Widget>[
             Column(
@@ -242,6 +253,7 @@ class _EditUserState extends State<EditUser> {
                     color: Color(0xff2e2925),
                     textColor: Color(0xffffffff),
                     onPressed: () {
+                      // Funcion
                       showDialog<bool>(
                         context: context,
                         builder: (c) => AlertDialog(
@@ -304,6 +316,7 @@ class _EditUserState extends State<EditUser> {
                         ),
                       );
                     },
+                    //
                     child: Text('ACEPTAR'),
                   ),
                 ),
@@ -315,6 +328,7 @@ class _EditUserState extends State<EditUser> {
     );
   }
 
+  // Funciones
   List<DropdownMenuItem<Role>> buildDropdownMenuItems(List roles) {
     List<DropdownMenuItem<Role>> items = List();
     for (Role role in roles) {
@@ -353,4 +367,5 @@ class _EditUserState extends State<EditUser> {
 
     return "Sucess";
   }
+  //
 }

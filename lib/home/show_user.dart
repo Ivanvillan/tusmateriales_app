@@ -1,24 +1,30 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+//
 class ShowUser extends StatefulWidget {
+  // Parametros iniciales
   final id;
   ShowUser({Key key, @required this.id}) : super(key: key);
+  //
   @override
   _ShowUserState createState() => _ShowUserState();
 }
 
 class _ShowUserState extends State<ShowUser> {
+  // Variables globales
   List data = List();
   var state;
   var rol;
-
+  //
   @override
   void initState() {
+    // Funciones iniciales
     getUser();
+    //
     super.initState();
   }
 
@@ -26,6 +32,7 @@ class _ShowUserState extends State<ShowUser> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        // Appbar
         appBar: AppBar(
           title: Text('Información del corralon'),
           backgroundColor: Color(0xfff2920a),
@@ -35,6 +42,7 @@ class _ShowUserState extends State<ShowUser> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         body: ListView.builder(
           itemCount: data == null ? 0 : data.length,
           itemBuilder: (BuildContext context, i) {
@@ -137,6 +145,7 @@ class _ShowUserState extends State<ShowUser> {
     );
   }
 
+  // Funciones
   Future<String> getUser() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -152,4 +161,5 @@ class _ShowUserState extends State<ShowUser> {
     });
     return "Sucess";
   }
+  //
 }

@@ -1,51 +1,38 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:tus_materiales_app/home/home.dart';
+//
 
 class Register extends StatefulWidget {
+  // parametros iniciales del screen
   final typeuser;
   Register({Key key, @required this.typeuser}) : super(key: key);
+  //
   @override
   _RegisterState createState() => _RegisterState();
 }
 
-// class Role {
-//   int id;
-//   String name;
-
-//   Role(this.id, this.name);
-
-//   static List<Role> getRole() {
-//     return <Role>[
-//       Role(1, 'Administrador'),
-//       Role(2, 'Usuario'),
-//       Role(3, 'Invitado'),
-//     ];
-//   }
-// }
-
 class _RegisterState extends State<Register> {
-  // List<Role> _role = Role.getRole();
-  // List<DropdownMenuItem<Role>> _dropdownMenuItems;
-  // Role _selectedRole;
+  // Variables globales
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   bool loading = false;
-  // bool loading = false;
-
+  //
+  // Controlador de valores de los inputs
   final TextEditingController nameController = new TextEditingController();
   final TextEditingController surnameController = new TextEditingController();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
   final TextEditingController phoneController = new TextEditingController();
-
+  //
+  //
   @override
   void initState() {
-    print(widget.typeuser);
-    // _dropdownMenuItems = buildDropdownMenuItems(_role);
+    // Funciones iniciales
+    //
     super.initState();
   }
 
@@ -54,6 +41,7 @@ class _RegisterState extends State<Register> {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Registro de usuario'),
           backgroundColor: Color(0xfff2920a),
@@ -63,6 +51,7 @@ class _RegisterState extends State<Register> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         body: ListView(
           children: <Widget>[
             Column(
@@ -208,50 +197,18 @@ class _RegisterState extends State<Register> {
                           ),
                         ],
                       ),
-                      // SizedBox(
-                      //   height: 10.0,
-                      // ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     Icon(Icons.verified_user),
-                      //     SizedBox(
-                      //       width: 10.0,
-                      //     ),
-                      //     Container(
-                      //       child: DropdownButton(
-                      //         hint: Text('Rol del usuario'),
-                      //         value: _selectedRole,
-                      //         items: _dropdownMenuItems,
-                      //         onChanged: onChangeDropdownItem,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
                     ],
                   ),
                 ),
                 SizedBox(
                   height: 15.0,
                 ),
-                // loading
-                //     ? Padding(
-                //         padding: const EdgeInsets.only(top: 20.0),
-                //         child: Container(
-                //           child: CircularProgressIndicator(),
-                //         ),
-                //       )
-                //     :
                 Container(
                   width: MediaQuery.of(context).size.width / 2,
                   child: RaisedButton(
                     color: Color(0xff2e2925),
                     textColor: Color(0xffffffff),
                     onPressed: () {
-                      // if (_formKey.currentState.validate()) {
-                      //   Scaffold.of(context).showSnackBar(
-                      //       SnackBar(content: Text('Processing Data')));
-                      // }
                       showDialog<bool>(
                         context: context,
                         builder: (c) => AlertDialog(
@@ -419,26 +376,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  // List<DropdownMenuItem<Role>> buildDropdownMenuItems(List roles) {
-  //   List<DropdownMenuItem<Role>> items = List();
-  //   for (Role role in roles) {
-  //     items.add(
-  //       DropdownMenuItem(
-  //         value: role,
-  //         child: Text(role.name),
-  //       ),
-  //     );
-  //   }
-  //   return items;
-  // }
-
-  // onChangeDropdownItem(Role selectedRole) {
-  //   if (!mounted) return;
-  //   setState(() {
-  //     _selectedRole = selectedRole;
-  //   });
-  // }
-
+  // Funciones
   login() async {
     setState(() {
       loading = true;
@@ -493,4 +431,5 @@ class _RegisterState extends State<Register> {
       loading = false;
     });
   }
+  //
 }

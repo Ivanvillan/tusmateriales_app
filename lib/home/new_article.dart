@@ -1,3 +1,4 @@
+// Librerias
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
@@ -12,14 +13,18 @@ import 'package:http/http.dart' as http;
 import 'package:tus_materiales_app/home/home.dart';
 import 'package:tus_materiales_app/home/list_article.dart';
 
+//
 class NewArticle extends StatefulWidget {
+  // Parametros iniciales
   final idCorral;
   NewArticle({Key key, @required this.idCorral}) : super(key: key);
+  //
   @override
   _NewArticleState createState() => _NewArticleState();
 }
 
 class _NewArticleState extends State<NewArticle> {
+  // Variables globales
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   List data = List();
@@ -34,19 +39,23 @@ class _NewArticleState extends State<NewArticle> {
   String errMessage = 'Error al subir imagen';
   String status = '';
   bool redirect = false;
-
+  //
+  // Control del valor de los inputs
   final TextEditingController brandController = new TextEditingController();
   final TextEditingController nomenclatureController =
       new TextEditingController();
   final TextEditingController priceController = new TextEditingController();
   final TextEditingController quantityController = new TextEditingController();
-
+  //
   @override
   void initState() {
+    // Funciones iniciales
     getGeneric();
+    //
     super.initState();
   }
 
+  // Widget mostrar imagen
   Widget showImage() {
     return FutureBuilder<File>(
       future: file,
@@ -77,6 +86,8 @@ class _NewArticleState extends State<NewArticle> {
     );
   }
 
+  //
+  // Modal mostrar productos
   void showModal(context) {
     showModalBottomSheet(
       context: context,
@@ -119,11 +130,13 @@ class _NewArticleState extends State<NewArticle> {
     );
   }
 
+  //
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Agregar artículo'),
           backgroundColor: Color(0xfff2920a),
@@ -141,6 +154,7 @@ class _NewArticleState extends State<NewArticle> {
             ),
           ),
         ),
+        //
         body: ListView(
           children: [
             Column(
@@ -350,7 +364,7 @@ class _NewArticleState extends State<NewArticle> {
                                 'Crear artículo',
                                 style: TextStyle(color: Colors.white),
                               ),
-                            )
+                            ),
                     ],
                   ),
                 )
@@ -362,6 +376,7 @@ class _NewArticleState extends State<NewArticle> {
     );
   }
 
+  // Funciones
   Future<String> getGeneric() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -458,4 +473,5 @@ class _NewArticleState extends State<NewArticle> {
       });
     }
   }
+  //
 }

@@ -1,9 +1,11 @@
+// Librerias
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tus_materiales_app/home/home.dart';
 import 'package:tus_materiales_app/home/send_order.dart';
 import 'package:tus_materiales_app/provider/cart_bloc.dart';
 
+//
 class CartShop extends StatefulWidget {
   @override
   _CartShopState createState() => _CartShopState();
@@ -12,6 +14,7 @@ class CartShop extends StatefulWidget {
 class _CartShopState extends State<CartShop> {
   @override
   Widget build(BuildContext context) {
+    // calculos del precio de los productos
     final customerList = Provider.of<CustomerList>(context);
     var totalPrice = Provider.of<CustomerList>(context)
         .customers
@@ -22,8 +25,10 @@ class _CartShopState extends State<CartShop> {
         .map<int>((m) => int.parse(m.price.split('.')[1]) * m.quantity)
         .reduce((a, b) => a + b);
     var total = totalPrice + totalPrice2;
+    //
     return MaterialApp(
       home: Scaffold(
+        // Appbar
         appBar: AppBar(
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back_ios),
@@ -46,6 +51,7 @@ class _CartShopState extends State<CartShop> {
             ],
           ),
         ),
+        //
         body: ListView.builder(
           itemCount: customerList.customers.length,
           itemBuilder: (context, index) {

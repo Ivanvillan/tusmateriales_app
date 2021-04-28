@@ -1,18 +1,22 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:tus_materiales_app/home/list_product.dart';
 
+//
 class NewProduct extends StatefulWidget {
+  // Parametros iniciales
   final roleUser;
   NewProduct({Key key, @required this.roleUser}) : super(key: key);
+  //
   @override
   _NewProductState createState() => _NewProductState();
 }
 
 class _NewProductState extends State<NewProduct> {
+  // Variables globales
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   List data = List();
@@ -22,17 +26,21 @@ class _NewProductState extends State<NewProduct> {
   var cat;
   // ignore: unused_field
   String _mySelection;
-
+  //
+  // Control del valor de los inputs
   final TextEditingController detailController = new TextEditingController();
   final TextEditingController additionalinformationController =
       new TextEditingController();
-
+  //
   @override
   void initState() {
+    // Funciones iniciales
     getCategories();
+    //
     super.initState();
   }
 
+  // Modal para mostrar los productos
   void showModal(context) {
     showModalBottomSheet(
       context: context,
@@ -73,12 +81,14 @@ class _NewProductState extends State<NewProduct> {
       },
     );
   }
+  //
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         key: scaffoldKey,
+        // Appbar
         appBar: AppBar(
           title: Text('Agregar producto'),
           backgroundColor: Color(0xfff2920a),
@@ -88,6 +98,7 @@ class _NewProductState extends State<NewProduct> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        //
         body: ListView(
           children: [
             Column(
@@ -182,6 +193,7 @@ class _NewProductState extends State<NewProduct> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          // Funcion
           onPressed: () {
             showDialog<bool>(
               context: context,
@@ -243,6 +255,7 @@ class _NewProductState extends State<NewProduct> {
               ),
             );
           },
+          //
           backgroundColor: Color(0xffe9501c),
           child: Icon(
             Icons.check,
@@ -253,6 +266,7 @@ class _NewProductState extends State<NewProduct> {
     );
   }
 
+  // Funciones
   Future<String> getCategories() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
@@ -267,4 +281,5 @@ class _NewProductState extends State<NewProduct> {
 
     return "Sucess";
   }
+  //
 }

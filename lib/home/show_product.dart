@@ -1,27 +1,34 @@
+// Librerias
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+//
 class ShowProduct extends StatefulWidget {
+  // Parametros iniciales
   final idProduct;
   final idCat;
   ShowProduct({Key key, @required this.idProduct, this.idCat})
       : super(key: key);
+  //
   @override
   _ShowProductState createState() => _ShowProductState();
 }
 
 class _ShowProductState extends State<ShowProduct> {
+  // Variables globales
   List data = List();
   List data2 = List();
   var state;
+  //
 
   @override
   void initState() {
+    // Funciones iniciales
     getCat();
     getProduct();
+    //
     super.initState();
   }
 
@@ -113,12 +120,10 @@ class _ShowProductState extends State<ShowProduct> {
     );
   }
 
+  // Funciones
   Future<String> getProduct() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
-    // username = localStorage.getString('username');
-    // email = localStorage.getString('email');
-    // role = localStorage.getString('role');
     var response = await http.get(
         ('http://200.105.69.227/tusmateriales-api/public/index.php/generics/getbyid/${widget.idProduct}'),
         headers: {'Accept': 'application/json', 'Cookie': cookies});
@@ -132,9 +137,6 @@ class _ShowProductState extends State<ShowProduct> {
   Future<String> getCat() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var cookies = localStorage.getString('cookies');
-    // username = localStorage.getString('username');
-    // email = localStorage.getString('email');
-    // role = localStorage.getString('role');
     var response = await http.get(
         ('http://200.105.69.227/tusmateriales-api/public/index.php/categories/get/all/${widget.idCat}'),
         headers: {'Accept': 'application/json', 'Cookie': cookies});
@@ -144,4 +146,5 @@ class _ShowProductState extends State<ShowProduct> {
     });
     return "Sucess";
   }
+  //
 }
